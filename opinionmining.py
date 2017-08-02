@@ -29,20 +29,7 @@ import simplejson
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-#%%
-
-#               Stopwords  Sentences  VP_Tagged  
-#Type                                            
-#product             5761       5761       5761 /2200
-#uninformative       5938       5938       5938 /2200
-#video               1939       1939       1939 /1500
-    
-#df_test=df_raw[:]
-print testdata.groupby('Type').count()
-
-#%%
-
-key='AIzaSyB-1OPGGifLu9v6e5tH_vM9h6ulCbrwozU'
+key='Insert Ur Key'
 
 #Load ID video
 with open('C:/Users/Einherjar/Google_Drive/Tugas_Akhir/program/files/video_ids.txt') as s:
@@ -95,48 +82,6 @@ for index, js in enumerate(json_comments):
         content.append(comments)
         
 df_raw['comments']=content
-
-#====================================================================
-#%%
-#mulai waktu pemrosesan
-
-#start_time = time.time()
-
-#%%
-#Membuat dataframe
-
-#start_time = time.time()
-
-#lokasi data json
-path_to_json = 'C:/Users/Einherjar/Google_Drive/Tugas_Akhir/program/training_comment'
-json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
-
-#nama kolom dataframe_raw
-df_raw = pd.DataFrame(columns=['Judul', 'Kanal', 'Deskripsi', 'comments','labels'])
-
-# enumerate semua json file
-
-for index, js in enumerate(json_files):
-    with open(os.path.join(path_to_json, js)) as json_file:
-        json_text = simplejson.load(json_file)
-
-        #pemilihan key ke dataframe
-        videoTitle = json_text['title']
-        channelTitle = json_text['channelTitle']
-        desc = json_text['description']
-        items = json_text['items']
-        comments = []
-        labels =[]
-        for item in items:
-            #pembenaran slangword
-            comment = item['textDisplay']
-            comments.append(comment)
-            
-            label = item['label']
-            labels.append(label)
-        
-        #input data kedalam dataframe_raw
-        df_raw.loc[index] = [videoTitle, channelTitle, desc, comments, labels]
 
 #expand list komentar dalam dataframe_raw
 komentar = df_raw['comments'].apply(pd.Series)
